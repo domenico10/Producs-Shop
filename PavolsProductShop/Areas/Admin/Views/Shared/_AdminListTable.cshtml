@@ -1,0 +1,53 @@
+﻿@{
+    ViewBag.Title = "ListTable";
+}
+<div class="row">
+    <div class="col-sm-2">
+        <div class="list-group">
+            <a asp-controller="Product" asp-action="List" asp-route-id="All" class="list-group-item @Model.CheckActiveCategory( "All" )">All</a>
+            @foreach(Category category in Model.Categories) // LOOPING OBJECT 
+            {
+                <a asp-controller="Product" asp-action="List" asp-route-id="@category.Name" class="list-group-item @Model.CheckActiveCategory(category.Name)">@category.Name</a>
+            }
+        </div>
+    </div>
+
+    <div class="col-sm-10">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var product in Model.Products) //LOOPING OBJECT PROPERTIES
+                {
+                    <tr>
+                        <td>@product.Name</td>
+                        <td>@product.Price.ToString("C")</td>
+                        <td>
+                            <a asp-controller="Product" asp-action="Update" asp-route-id="@product.ProductID">Update</a>
+                        </td>
+                        <td>
+                            <a asp-controller="Product" asp-action="Delete" asp-route-id="@product.ProductID">Delete</a>
+                        </td>
+                    </tr>
+
+                }
+            </tbody>
+        </table>
+        @{ 
+            string userMessage = TempData?["UserMessage"]?.ToString() ?? ""; //DISPLAY TEXT ON THE PAGE AFTER ADDING OR UPDATING A PRODUCT USING TEMPDATA.. USE QUESTION MARKS TO MAKE IT NULLABLE OTHERWISE IT WILL BE LOADED BUT WITH NO
+                                                                             //CONTENT, SO WILL DISPLAY AN EXCEMPTION
+        }
+        @if(userMessage != "")
+        {
+            <div class="text-success">@userMessage</div>
+        }
+        <a asp-controller="Product" asp-action="Add" class="btn btn-primary">Add product</a>
+    </div>
+</div>

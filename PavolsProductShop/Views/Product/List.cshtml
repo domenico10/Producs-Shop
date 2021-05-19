@@ -1,0 +1,8 @@
+﻿@model ProductListViewModel
+@{ 
+    ViewBag.Title = "Product List";
+}
+
+<h1>Product List</h1>
+
+        @await Html.PartialAsync("_ListTable") <!--LIST OF PRODUCT SHOWN USING PARTIAL VIEW-->
